@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lovart 产品拆解档案</title>
+<meta name="description" content="Lovart 完整产品架构拆解：基于真实项目证据，覆盖用户旅程、Agent 编排、九层架构、模型路由、数据实体、状态机与优化方案。">
+<meta property="og:title" content="Lovart 设计 Agent 产品拆解">
+<meta property="og:description" content="真实项目取证：九层产品架构、Agent 编排、模型路由、数据实体、状态机与优化方案。">
+<meta property="og:type" content="article">
+<meta property="og:image" content="/evidence/S04-canvas-assets.jpeg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Lovart 设计 Agent 产品拆解">
+<meta name="twitter:description" content="真实项目取证：九层产品架构、Agent 编排、模型路由、数据实体、状态机与优化方案。">
+<meta name="twitter:image" content="/evidence/S04-canvas-assets.jpeg">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@500;700;900&amp;family=Noto+Sans+SC:wght@300;400;500;700&amp;display=swap">
+<style>
+:root{--bg:#F5F2EB;--card:#fff;--panel:#FBF9F4;--border:#E6E0D6;--ink:#221C15;--ink2:#5C5348;--ink3:#8A8174;--accent:#D95832;--deep:#9E3A18;--soft:#FBEAE3;--ok:#2E7D32;--warn:#B26A00;--err:#C62828;--u:#EAF1FA;--ui:#FBF0E6;--sys:#EDF3E9;--sans:"Noto Sans SC","PingFang SC",sans-serif;--serif:"Noto Serif SC","Songti SC",serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.72 var(--sans)}a{color:inherit;text-decoration:none}.wrap{max-width:1140px;margin:auto;padding:18px 18px 90px}.nav{position:sticky;top:0;z-index:20;height:54px;display:flex;align-items:center;justify-content:center;gap:4px;background:rgba(255,255,255,.95);border-bottom:1px solid var(--border);overflow-x:auto}.nav a{padding:6px 10px;border-radius:8px;color:var(--ink2);font-size:13px;white-space:nowrap}.nav a:hover{background:var(--soft);color:var(--deep)}.hero{padding:32px;border:1px solid var(--border);border-radius:18px;background:linear-gradient(135deg,#FFF8F2,#FBE9DE);margin-bottom:18px}.hero h1{font:900 clamp(28px,5vw,44px)/1.2 var(--serif);margin:0 0 10px}.hero p{max-width:970px;color:#5C4030}.stat{display:inline-block;padding:5px 12px;margin:4px 6px 0 0;border:1px solid rgba(158,58,24,.35);border-radius:999px;background:#fff;color:#7A3E14;font-size:12px}.callout{padding:15px 18px;margin:12px 0;border-left:5px solid var(--accent);border-radius:10px;background:var(--soft)}.callout.err{border-color:var(--err);background:#FDEAEA}.section{scroll-margin-top:68px;margin-top:44px}.section h2{display:flex;align-items:center;gap:12px;font:800 23px var(--serif)}.no{padding:6px 11px;border-radius:8px;background:#2A1B12;color:#F5A17F;font:900 14px ui-monospace,monospace}.grid{display:grid;gap:14px}.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin:12px 0}.card h3,.card h4{margin:0 0 8px}.badge{display:inline-block;padding:2px 8px;margin:2px 3px;border-radius:6px;font-size:11px;font-weight:700}.fact{background:#E6F4EA;color:var(--ok)}.infer{background:#FFF3E0;color:var(--warn)}.recommend{background:#EDE9FE;color:#6D28D9}.na{background:#FDEAEA;color:var(--err)}.ev{display:inline-block;padding:1px 6px;margin:1px 2px;border-radius:4px;background:#3A2A20;color:#FFD9C9;font:700 10.5px ui-monospace,monospace}table{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--border);font-size:12.7px}th,td{padding:9px 11px;border-bottom:1px solid var(--border);vertical-align:top;text-align:left}th{background:#F3EFE8}.table-scroll{overflow-x:auto}.lanehead,.phase{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.lanehead div{padding:8px;text-align:center;border-radius:8px;font-weight:700}.lu{background:var(--u);color:#1B4B7A}.li{background:var(--ui);color:#7A3E14}.ls{background:var(--sys);color:#2E5A27}.phase{margin:10px 0;padding:12px;background:#fff;border:1px solid var(--border);border-radius:12px}.cell{padding:10px 12px;border-radius:9px;border:1px solid var(--border)}.cell h4{font-size:11.5px}.journey-table td:first-child{font-weight:700;white-space:nowrap}.flow{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.node{padding:9px 12px;border:1px solid var(--border);border-radius:9px;background:#fff}.arrow{color:var(--ink3)}.node.bad{border-color:#E6AAAA;background:#FFF5F5;color:#8A1C1C}.curve{display:grid;grid-template-columns:repeat(6,1fr);align-items:end;height:190px;padding:18px;background:#fff;border:1px solid var(--border);border-radius:12px}.pt{text-align:center;font-size:11px;color:var(--ink3)}.bar{width:52%;margin:0 auto 7px;border-radius:8px 8px 3px 3px;background:linear-gradient(#EF8C64,#D95832)}.bar.neg{background:linear-gradient(#E89292,#C62828)}.agent{background:#fff;border:2px solid var(--border);border-radius:14px;margin:14px 0;overflow:hidden}.agent .head{padding:11px 15px;background:var(--panel);border-bottom:1px solid var(--border);font-weight:800}.agent .body{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px}.blk{border:1px solid var(--border);border-radius:9px;padding:10px 12px}.blk.in{background:var(--u)}.blk.judge{background:#FFFDF6}.blk.tool{background:var(--ui)}.blk.out{background:var(--sys)}.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}.shot{display:block;overflow:hidden;background:#fff;border:1px solid var(--border);border-radius:12px}.shot img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top}.shot .meta{padding:10px 12px;color:var(--ink3);font-size:12px}.shot .mid{color:var(--accent);font:700 11px ui-monospace,monospace}.small{font-size:12px;color:var(--ink3)}.risk{color:var(--err);font-weight:700}ul{padding-left:19px;margin:6px 0}.legend{display:flex;gap:12px;flex-wrap:wrap;margin:8px 0 14px;color:var(--ink2);font-size:12px}.legend span{display:flex;align-items:center;gap:6px}.line{display:inline-block;width:30px;border-top:3px solid var(--ok)}.line.dashed{border-top-style:dashed;border-color:var(--warn)}.line.dotted{border-top-style:dotted;border-color:#6D28D9}.arch-stack{display:grid;gap:8px}.arch-layer{display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:start;padding:12px;border:1px solid var(--border);border-radius:12px;background:#fff}.arch-layer .label{font-weight:800;color:var(--deep)}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{padding:6px 9px;border:1px solid #CCDCC5;border-radius:8px;background:#F2F7EF;font-size:12px}.chip.infer{border-style:dashed;border-color:#E5C37B;background:#FFF9E8;color:#72520A}.chip.recommend{border-style:dotted;border-color:#B9A5EE;background:#F6F2FF;color:#5B38A4}.arch-arrow{text-align:center;color:var(--ink3);font:700 12px ui-monospace,monospace}.matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.domain{min-height:98px;padding:12px;border:1px solid var(--border);border-radius:11px;background:#fff}.domain b{display:block;color:var(--deep);margin-bottom:3px}.state-track{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:14px;background:#fff;border:1px solid var(--border);border-radius:12px}.state{padding:7px 10px;border:1px solid #CADBC5;background:#EFF7EC;border-radius:999px;font-size:12px;font-weight:700}.state.fail{border-color:#E6AAAA;background:#FFF2F2;color:#8A1C1C}.state.todo{border-style:dotted;border-color:#A78BDA;background:#F7F3FF;color:#5B38A4}.seq{display:grid;gap:8px}.seq-step{display:grid;grid-template-columns:38px 150px 1fr;gap:10px;align-items:start;padding:11px 12px;background:#fff;border:1px solid var(--border);border-radius:10px}.seq-step .idx{width:30px;height:30px;display:grid;place-items:center;background:#2A1B12;color:#F5A17F;border-radius:8px;font:800 11px ui-monospace,monospace}.seq-step .actor{font-weight:800}.panorama{display:grid;grid-template-columns:1fr 52px 1fr;gap:10px;align-items:stretch}.pane{padding:15px;border-radius:13px;border:1px solid var(--border);background:#fff}.pane h3{color:var(--deep)}.mid-arrow{display:grid;place-items:center;color:var(--accent);font-size:24px}.risk-list{counter-reset:risk}.risk-item{counter-increment:risk;display:grid;grid-template-columns:44px 1fr auto;gap:10px;align-items:start;padding:12px;border-bottom:1px solid var(--border)}.risk-item:before{content:"R" counter(risk);display:grid;place-items:center;width:34px;height:34px;border-radius:8px;background:#FDEAEA;color:var(--err);font:800 11px ui-monospace,monospace}@media(max-width:780px){.g2,.g3,.lanehead,.phase,.agent .body,.matrix,.panorama{grid-template-columns:1fr}.curve{grid-template-columns:repeat(3,1fr);height:auto}.bar{height:42px!important}.nav{justify-content:flex-start}.arch-layer{grid-template-columns:1fr}.seq-step{grid-template-columns:34px 1fr}.seq-step .actor{grid-column:2}.mid-arrow{transform:rotate(90deg)}}
+</style>
+</head>
+<body>
+<nav class="nav"><a href="#overview">总览</a><a href="#journey">用户旅程</a><a href="#architecture">九层架构</a><a href="#workflow">编排状态机</a><a href="#context">上下文</a><a href="#models">模型路由</a><a href="#er">数据实体</a><a href="#tobe">优化蓝图</a><a href="#gallery">证据</a></nav>
+<main class="wrap">
+<header class="hero" id="overview">
+  <h1>Lovart 设计 Agent 完整产品架构拆解</h1>
+  <p>主类型为<strong>通用执行 Agent</strong>，次类型为<strong>多模态 AIGC 工具</strong>。报告以真实“便携咖啡机 15 秒竖屏 UGC 广告”项目为证据底座，完整还原用户旅程、功能域、Agent 编排、九层产品架构、模型能力路由、全局上下文、数据实体、端到端时序与优化蓝图。案例在 BGM 阶段因积分不足停止，未形成带字幕、配乐和剪辑的最终成片。</p>
+  <span class="stat">6 个可观察阶段</span><span class="stat">9 层产品架构</span><span class="stat">5 个功能 Agent</span><span class="stat">9 张证据截图</span><span class="stat">取证日期 2026-08-31</span>
+</header>
+<div class="callout"><b>核心结论：</b> Lovart 的差异化不是单个生成器，而是“对话式导演 + 多模态生成 + 无限画布”的编排体验；当前案例证明中间资产生产链可运行，但最终交付链没有闭环。 <span class="badge fact">页面事实</span> <span class="ev">S04</span><span class="ev">S09</span></div>
+<div class="callout err"><b>一致性风险：</b> 对话称 4 个视频素材已经生成，但画布中至少 1 个分镜呈失败占位；画布中有咖啡机锚点和视频资产，但“我的素材 → 产品”为空；项目名为“15秒广告视频”，实际分镜时长记录合计 16 秒且无最终成片。 <span class="ev">S04</span><span class="ev">S08</span><span class="ev">S09</span></div>
+
+<section class="section" id="evidence-gate"><h2><span class="no">00</span>证据完整性门</h2>
+<div class="grid g2">
+  <div class="card"><h3>已满足</h3><ul><li>可还原输入到中间产物：需求、计划、锚点图、旁白、分镜视频。</li><li>可见回应和控制点：执行计划、素材卡、历史对话、输入框、升级提示。</li><li>有可核对资产：1 张锚点图、1 条 15 秒音频、4 个视频槽位。</li><li>有非正常路径：BGM 因积分不足中断，最终合成未执行。</li></ul></div>
+  <div class="card"><h3>限制</h3><ul><li>只有一个历史会话，没有真实用户纠偏或版本回退记录。</li><li>没有源代码、接口文档或数据表，技术与模型层仅能做行为证据推断。</li><li>未播放和下载全部资产，不对画面质量、音画同步和品牌一致性作最终验收。</li></ul></div>
+</div></section>
+
+<section class="section" id="journey"><h2><span class="no">01</span>用户旅程</h2>
+<table class="journey-table"><tr><th>阶段</th><th>用户目标与动作</th><th>页面反馈</th><th>资产/状态变化</th><th>阻力</th><th>证据</th></tr>
+<tr><td>P1 输入需求</td><td>一次性输入产品、受众、风格、9:16 与约 15 秒。</td><td>项目自动命名，系统直接进入规划。</td><td>写入交付规格与项目上下文。</td><td>缺少演员、场景、产品实物参考仍直接执行。</td><td><span class="ev">S03</span><span class="ev">S06</span></td></tr>
+<tr><td>P2 自动规划</td><td>无需额外操作。</td><td>展示“4 分镜 + 旁白 + 轻 BGM + 字幕”的方案。</td><td>确定产品锚点优先的执行顺序。</td><td>未出现显式“确认方案”门。</td><td><span class="ev">S06</span></td></tr>
+<tr><td>P3 产品锚点</td><td>等待生成。</td><td>图片模型卡片与画布资产出现。</td><td>白底便携咖啡机锚点图成为后续引用对象。</td><td>生成资产未自动进入“产品素材”。</td><td><span class="ev">S04</span><span class="ev">S08</span></td></tr>
+<tr><td>P4 旁白生成</td><td>等待生成，可播放或下载。</td><td>语音资产卡显示中文、年轻女性、约 15 秒。</td><td>15 秒单声道旁白落盘。</td><td>尚未验证真实时长、语速和音质。</td><td><span class="ev">S06</span></td></tr>
+<tr><td>P5 视频分镜</td><td>等待并在画布查看。</td><td>4 个命名分镜槽位出现。</td><td>3 个可见预览正常，1 个显示失败占位。</td><td>聊天宣称全量成功，与画布冲突；时长合计 16 秒。</td><td><span class="ev">S04</span></td></tr>
+<tr><td>P6 BGM 与终止</td><td>没有继续操作。</td><td>显示“积分不足”，提供升级会员入口。</td><td>BGM、剪辑、字幕与最终合成均未产出。</td><td>计费门出现在长链路末端，已生成资产无法自动降级收尾。</td><td><span class="ev">S09</span></td></tr></table>
+
+<div class="card"><h3>三泳道主流程</h3><div class="lanehead"><div class="lu">用户</div><div class="li">产品界面</div><div class="ls">系统结果</div></div>
+<div class="phase"><div class="cell lu"><h4>输入</h4>提供完整广告简报。</div><div class="cell li"><h4>对话</h4>解释交付结构并自动开工。</div><div class="cell ls"><h4>上下文</h4>写入受众、画幅、时长、风格与镜头列表。</div></div>
+<div class="phase"><div class="cell lu"><h4>等待/检查</h4>查看中间资产。</div><div class="cell li"><h4>画布</h4>展示锚点、音频与分镜。</div><div class="cell ls"><h4>并行生成</h4>图片 → 语音/视频；锚点向分镜传递。</div></div>
+<div class="phase"><div class="cell lu"><h4>决定</h4>升级、补积分、修改需求或停止。</div><div class="cell li"><h4>错误卡</h4>积分不足，只有升级会员主动作。</div><div class="cell ls"><h4>终态</h4>项目停在中间资产态，最终成片缺失。</div></div></div>
+<div class="card"><h3>关键决策树</h3><div class="flow"><span class="node">需求字段是否充分？</span><span class="arrow">→ 是</span><span class="node">自动生成锚点</span><span class="arrow">→</span><span class="node">音频/视频生成</span><span class="arrow">→</span><span class="node">积分是否足够？</span><span class="arrow">→ 否</span><span class="node bad">停止于 BGM，未合成</span></div><p class="small">修改路径存在对话输入、资产卡操作按钮和画布编辑工具，但没有实际修改记录，故结果标为尚未确认。</p></div>
+<div class="card"><h3>情绪曲线 <span class="badge infer">推断</span></h3><div class="curve"><div class="pt"><div class="bar" style="height:55px"></div>输入<br>期待</div><div class="pt"><div class="bar" style="height:85px"></div>方案<br>清晰</div><div class="pt"><div class="bar" style="height:110px"></div>锚点<br>看到成果</div><div class="pt"><div class="bar" style="height:96px"></div>音频<br>进展稳定</div><div class="pt"><div class="bar" style="height:58px"></div>分镜<br>质量疑虑</div><div class="pt"><div class="bar neg" style="height:28px"></div>积分中断<br>挫败</div></div></div>
+</section>
+
+<section class="section" id="agents"><h2><span class="no">02</span>技术层：Agent 契约</h2><p>以下名称为功能命名，不代表 Lovart 官方内部组件名。</p>
+<div class="agent"><div class="head">A1 任务编排与导演 Agent</div><div class="body"><div class="blk in"><h4>输入</h4>用户简报；项目会话；余额 0；画幅、时长、受众和风格字段。</div><div class="blk judge"><h4>可观察判断</h4>判断信息足以直接执行；拆为 4 个分镜、旁白、BGM、字幕和合成；决定先建立产品锚点。 <span class="badge fact">事实</span></div><div class="blk tool"><h4>工具</h4>任务规划、图像生成调度、视频生成调度、语音调度、合成调度（后者未实际完成）。</div><div class="blk out"><h4>输出/交接</h4>用户可读计划；镜头列表；锚点引用；向多模态生成组件下发任务；根据运行结果继续或停止。</div></div></div>
+<div class="agent"><div class="head">A2 图像生成组件</div><div class="body"><div class="blk in"><h4>输入</h4>便携咖啡机主题与“白底/简约产品锚点”目标。</div><div class="blk judge"><h4>可观察判断</h4>生成单张可复用产品参考；具体模型和参数未暴露。 <span class="badge na">未知</span></div><div class="blk tool"><h4>工具</h4>图像生成（页面标注“图片模型”）。</div><div class="blk out"><h4>输出/交接</h4>锚点 PNG 与画布节点；被视频分镜任务引用。 <span class="ev">S06</span></div></div></div>
+<div class="agent"><div class="head">A3 语音生成组件</div><div class="body"><div class="blk in"><h4>输入</h4>中文口播文案、年轻女性、自然亲切、生活感、约 15 秒。</div><div class="blk judge"><h4>可观察判断</h4>从广告节奏给出前快后慢建议；是否有自动时长校准未知。</div><div class="blk tool"><h4>工具</h4>中文 TTS/语音生成。</div><div class="blk out"><h4>输出/交接</h4>单声道 WAV、播放器、下载链接，计划交给最终合成。</div></div></div>
+<div class="agent"><div class="head">A4 视频分镜生成组件</div><div class="body"><div class="blk in"><h4>输入</h4>4 个镜头提示、9:16、UGC 风格、产品锚点引用。</div><div class="blk judge"><h4>可观察判断</h4>按镜头独立生成；主体一致性是否真实达标未被自动验收。</div><div class="blk tool"><h4>工具</h4>视频生成（页面标注“视频模型”）。</div><div class="blk out"><h4>输出/交接</h4>4 个画布槽位；3 个可见预览，1 个失败占位；计划交给合成组件。</div></div></div>
+<div class="agent"><div class="head">A5 音乐与后期合成组件</div><div class="body"><div class="blk in"><h4>输入</h4>轻快 BGM 需求、旁白、4 个视频分镜、目标 15 秒。</div><div class="blk judge"><h4>可观察判断</h4>先请求 BGM；运行时余额检查失败。</div><div class="blk tool"><h4>工具</h4>BGM 生成；视频剪辑、字幕、配乐与导出仅被计划，未观察到实际调用。</div><div class="blk out"><h4>输出/交接</h4>积分不足错误卡；没有 BGM、字幕或最终成片。 <span class="ev">S09</span></div></div></div>
+</section>
+
+<section class="section" id="model"><h2><span class="no">03</span>模型层</h2>
+<table><tr><th>能力</th><th>可见行为证据</th><th>结论</th><th>边界</th></tr>
+<tr><td>文本理解与规划</td><td>从单段简报提取产品、受众、风格、画幅、时长并拆分任务。</td><td><span class="badge infer">推断</span>存在文本模型承担结构化规划与路由。</td><td>未暴露模型名、上下文长度、可控温度。</td></tr>
+<tr><td>图像生成</td><td>生成白底便携咖啡机产品锚点。</td><td><span class="badge fact">页面事实</span>页面存在“图片模型”生成结果。</td><td>分辨率、模型、种子、版权策略未知。</td></tr>
+<tr><td>视频生成</td><td>按 4 个 UGC 镜头生成竖屏视频槽位。</td><td><span class="badge fact">页面事实</span>页面存在“视频模型”卡片和可播放预览。</td><td>至少 1 个分镜失败；主体一致性未量化验证。</td></tr>
+<tr><td>语音合成</td><td>生成约 15 秒中文年轻女性旁白 WAV。</td><td><span class="badge fact">页面事实</span>页面有播放器和文件链接。</td><td>音色模型、授权、韵律控制未知。</td></tr>
+<tr><td>音乐/后期</td><td>BGM 请求被积分门拦截；合成只停留在计划。</td><td><span class="badge fact">页面事实</span>能力入口存在，但本案例未成功执行。</td><td>最终剪辑、字幕、混音、导出质量均未验证。</td></tr></table>
+</section>
+
+<section class="section" id="data"><h2><span class="no">04</span>数据层与状态一致性</h2>
+<div class="card"><h3>全局上下文字段</h3><table><tr><th>字段</th><th>生产者</th><th>消费者</th><th>状态/证据</th></tr>
+<tr><td>project_id / 项目标题</td><td>项目系统</td><td>项目列表、画布、历史对话</td><td>可稳定打开同一项目。 <span class="ev">S03</span><span class="ev">S05</span></td></tr>
+<tr><td>产品、受众、风格、画幅、目标时长</td><td>用户简报</td><td>编排、图像、视频、语音、合成</td><td>在对话中被逐项确认。 <span class="ev">S06</span></td></tr>
+<tr><td>产品锚点引用</td><td>图像生成</td><td>4 个视频分镜</td><td>页面明确声明引用；画布有锚点图。</td></tr>
+<tr><td>旁白资产</td><td>语音生成</td><td>计划中的后期合成</td><td>WAV 已生成，但未进入最终成片。</td></tr>
+<tr><td>分镜资产与时长</td><td>视频生成</td><td>计划中的后期合成</td><td>4 个槽位，3 个可见预览；记录时长合计 16 秒。</td></tr>
+<tr><td>credits = 0</td><td>账户/计费系统</td><td>BGM 与后续任务</td><td>触发硬中断。 <span class="ev">S09</span></td></tr>
+<tr><td>final_deliverable_status</td><td>合成组件</td><td>用户、项目列表</td><td><span class="badge na">尚未确认/未产出</span></td></tr></table></div>
+<div class="card"><h3>生产者 → 消费者</h3><table><tr><th>数据流</th><th>生产者 → 消费者</th><th>一致性问题</th></tr>
+<tr><td>需求 → 计划</td><td>用户 → 编排 Agent</td><td>自动执行前缺少显式确认门。</td></tr>
+<tr><td>锚点 → 分镜</td><td>图像生成 → 视频生成</td><td>声明了引用，但没有自动一致性评分或失败回滚证据。</td></tr>
+<tr><td>分镜/旁白 → 最终片</td><td>视频/语音 → 后期合成</td><td>BGM 失败导致整个交付链停摆，没有“无 BGM 继续合成”降级策略。</td></tr>
+<tr><td>画布资产 → 产品素材库</td><td>画布 → 我的素材</td><td class="risk">产品分类为空，未自动沉淀为结构化产品资产。</td></tr>
+<tr><td>聊天完成声明 → 画布</td><td>编排 Agent → 画布</td><td class="risk">聊天称 4 个视频已生成，画布至少 1 个失败占位。</td></tr></table></div>
+</section>
+
+<section class="section" id="domains"><h2><span class="no">05</span>核心功能域与五条端到端流</h2>
+<p>功能域按页面可见范围建模；未观察到的分享发布、版本回退、质量评测等能力不视为已存在。</p>
+<div class="matrix">
+  <div class="domain"><b>账户与计费</b>登录门、会员档位、积分余额、升级入口。 <span class="badge fact">已确认</span> <span class="ev">S01</span><span class="ev">S02</span><span class="ev">S09</span></div>
+  <div class="domain"><b>项目与历史</b>项目列表、项目标题、更新时间、历史对话。 <span class="badge fact">已确认</span> <span class="ev">S03</span><span class="ev">S05</span></div>
+  <div class="domain"><b>对话式导演</b>需求解析、自动规划、进度播报、异常告知。 <span class="badge fact">已确认</span> <span class="ev">S06</span><span class="ev">S09</span></div>
+  <div class="domain"><b>无限画布</b>产品锚点、音频、视频分镜与失败节点的空间化呈现。 <span class="badge fact">已确认</span> <span class="ev">S04</span></div>
+  <div class="domain"><b>多模态生成</b>图片、视频、语音；音乐请求存在但本案例失败。 <span class="badge fact">已确认</span></div>
+  <div class="domain"><b>结构化素材库</b>品牌、角色、产品、自定义分类；产品分类未同步锚点。 <span class="badge fact">已确认</span> <span class="ev">S07</span><span class="ev">S08</span></div>
+  <div class="domain"><b>后期交付</b>字幕、剪辑、混音、导出只出现在计划中。 <span class="badge na">未验证</span></div>
+  <div class="domain"><b>质量与恢复</b>失败重试、局部重算、版本回退、自动验收均无可见证据。 <span class="badge na">未知</span></div>
+</div>
+<div class="card table-scroll"><h3>同一任务中的五条流</h3><table><tr><th>流</th><th>入口</th><th>核心路径</th><th>终点/断点</th><th>结论</th></tr>
+<tr><td>用户交互流</td><td>单段广告简报</td><td>输入 → 查看计划 → 等待资产 → 查看错误</td><td>升级会员入口；无最终确认</td><td><span class="badge fact">已确认</span></td></tr>
+<tr><td>Agent 控制流</td><td>导演式编排</td><td>拆镜头 → 锚点 → 语音/视频 → BGM → 合成</td><td>BGM 余额校验失败后停止</td><td><span class="badge infer">合理推断</span></td></tr>
+<tr><td>工具调用流</td><td>生成任务</td><td>图片生成 → TTS/视频生成 → 音乐生成请求</td><td>音乐工具返回积分不足</td><td><span class="badge fact">已确认到结果层</span></td></tr>
+<tr><td>上下文流</td><td>产品、受众、风格、画幅、时长</td><td>计划结构 → 锚点引用 → 分镜参数 → 交付状态</td><td>聊天态与画布态出现冲突</td><td><span class="badge infer">合理推断</span></td></tr>
+<tr><td>媒体资产流</td><td>产品锚点图</td><td>PNG → 4 个视频槽位 + WAV → 计划合成</td><td>至少 1 个分镜失败；无最终 MP4</td><td><span class="badge fact">已确认</span></td></tr>
+</table></div>
+</section>
+
+<section class="section" id="architecture"><h2><span class="no">06</span>九层产品架构总览</h2>
+<div class="legend"><span><i class="line"></i>已确认</span><span><i class="line dashed"></i>合理推断</span><span><i class="line dotted"></i>建议设计</span></div>
+<div class="arch-stack">
+  <div class="arch-layer"><div class="label">L1 用户与渠道层</div><div class="chips"><span class="chip">微信/手机号登录</span><span class="chip">会员与积分</span><span class="chip">项目入口</span><span class="chip infer">账户偏好</span><span class="chip recommend">分享发布渠道</span></div></div>
+  <div class="arch-arrow">↓ 身份 / 权限 / 项目选择</div>
+  <div class="arch-layer"><div class="label">L2 交互与工作台层</div><div class="chips"><span class="chip">对话输入</span><span class="chip">无限画布</span><span class="chip">媒体资产卡</span><span class="chip">历史对话</span><span class="chip">我的素材</span><span class="chip">错误与升级卡</span><span class="chip recommend">交付状态面板</span></div></div>
+  <div class="arch-arrow">↓ 用户指令 / 确认 / 状态展示</div>
+  <div class="arch-layer"><div class="label">L3 产品应用层</div><div class="chips"><span class="chip">项目管理</span><span class="chip">分镜管理</span><span class="chip">图片/视频/音频资产</span><span class="chip infer">后期合成</span><span class="chip recommend">资产版本与依赖</span><span class="chip recommend">导出管理</span></div></div>
+  <div class="arch-arrow">↓ 任务定义 / 资产引用 / 完成条件</div>
+  <div class="arch-layer"><div class="label">L4 Agent 与流程编排层</div><div class="chips"><span class="chip">任务编排与导演</span><span class="chip">图像生成组件</span><span class="chip">语音生成组件</span><span class="chip">视频分镜组件</span><span class="chip infer">音乐与后期组件</span><span class="chip recommend">质量门与恢复协调器</span></div></div>
+  <div class="arch-arrow">↓ 调用 / 异步等待 / 状态更新 / 失败事件</div>
+  <div class="arch-layer"><div class="label">L5 工具与服务层</div><div class="chips"><span class="chip">图像生成</span><span class="chip">视频生成</span><span class="chip">中文 TTS</span><span class="chip">余额校验</span><span class="chip infer">音乐生成</span><span class="chip infer">媒体合成</span><span class="chip recommend">质量评测</span><span class="chip recommend">可降级导出</span></div></div>
+  <div class="arch-arrow">↓ 标准模型请求 / 工具结果 / 成本与错误</div>
+  <div class="arch-layer"><div class="label">L6 模型接入与路由层</div><div class="chips"><span class="chip infer">文本规划能力</span><span class="chip infer">图像能力适配器</span><span class="chip infer">视频能力适配器</span><span class="chip infer">TTS 能力适配器</span><span class="chip recommend">成本/时延/失败率路由</span><span class="chip recommend">能力目录</span></div></div>
+  <div class="arch-arrow">↕ 读取上下文 / 写入任务状态与资产引用</div>
+  <div class="arch-layer"><div class="label">L7 全局上下文与数据层</div><div class="chips"><span class="chip">Project</span><span class="chip">Conversation</span><span class="chip">Storyboard</span><span class="chip">Asset</span><span class="chip">BillingContext</span><span class="chip infer">WorkflowState</span><span class="chip recommend">统一交付状态事实源</span></div></div>
+  <div class="arch-arrow">↕ 规则 / 模板 / 私有资产引用</div>
+  <div class="arch-layer"><div class="label">L8 知识与公共资产层</div><div class="chips"><span class="chip">品牌/角色/产品/自定义素材分类</span><span class="chip infer">提示词模板</span><span class="chip infer">镜头语言知识</span><span class="chip recommend">模型能力知识库</span><span class="chip recommend">私有/公共隔离策略</span></div></div>
+  <div class="arch-arrow">↕ 身份 / 存储 / 队列 / 追踪 / 安全</div>
+  <div class="arch-layer"><div class="label">L9 基础设施与治理层</div><div class="chips"><span class="chip infer">身份与权限</span><span class="chip infer">媒体对象存储/CDN</span><span class="chip infer">异步任务执行</span><span class="chip recommend">幂等与去重</span><span class="chip recommend">链路追踪</span><span class="chip recommend">内容安全与成本控制</span></div></div>
+</div>
+<div class="callout err"><b>主架构断点：</b>L4 编排层将“视频素材已生成”写入对话，但 L7 没有向所有视图提供统一的交付状态；L5 的余额检查又发生在长链路末端，导致 L3 的最终交付无法闭环。 <span class="ev">S04</span><span class="ev">S09</span></div>
+</section>
+
+<section class="section" id="workflow"><h2><span class="no">07</span>Agent 编排、工具与状态机</h2>
+<div class="card"><h3>可观察状态机</h3><div class="state-track"><span class="state">需求已接收</span><span class="arrow">→</span><span class="state">计划已生成</span><span class="arrow">→</span><span class="state">锚点已生成</span><span class="arrow">→</span><span class="state">音频已生成</span><span class="arrow">→</span><span class="state fail">分镜部分失败</span><span class="arrow">→</span><span class="state fail">BGM 余额不足</span><span class="arrow">→</span><span class="state todo">最终交付未完成</span></div>
+<p class="small">页面没有暴露正式状态枚举，以上为功能状态建模；“分镜部分失败”来自画布，而“素材已生成”来自聊天，两者并列保留。</p></div>
+<div class="card table-scroll"><h3>Agent — 工具 — 上下文关系</h3><table><tr><th>功能组件</th><th>读取</th><th>调用</th><th>写入</th><th>交接/完成门</th></tr>
+<tr><td>任务编排与导演</td><td>用户简报、项目、余额</td><td>规划与多模态任务调度</td><td>镜头计划、进度回复、任务状态</td><td>应以工具结果与资产完整性为完成门</td></tr>
+<tr><td>图像生成</td><td>产品描述、风格目标</td><td>图片模型</td><td>锚点图、Asset 引用</td><td>锚点可读后触发分镜</td></tr>
+<tr><td>语音生成</td><td>口播文案、语言、音色、目标时长</td><td>TTS</td><td>WAV、时长、任务结果</td><td>音频成功并可访问</td></tr>
+<tr><td>视频分镜生成</td><td>镜头提示、9:16、锚点引用</td><td>视频模型</td><td>4 个分镜资产与状态</td><td class="risk">应要求 4/4 成功；当前至少 1 个失败</td></tr>
+<tr><td>音乐与后期</td><td>旁白、分镜、目标时长、余额</td><td>BGM、剪辑、字幕、导出</td><td>错误或最终成片</td><td class="risk">余额不足后无降级终态</td></tr>
+</table></div>
+<div class="grid g2"><div class="card"><h3>异常路径</h3><ul><li>模型任务失败：画布出现失败节点，但未见自动修复。</li><li>余额不足：音乐调用被硬拦截，后续合成停止。</li><li>用户修改：输入通道存在，但依赖失效和局部重算未知。</li><li>用户中断：未观察到暂停/取消后的后台任务处理。</li></ul></div><div class="card"><h3>建议完成门 <span class="badge recommend">建议设计</span></h3><ul><li>所有必选分镜状态均为 succeeded。</li><li>分镜总时长与目标时长在容差内。</li><li>旁白时长、字幕时间轴和画面时长可对齐。</li><li>余额预授权成功，或用户选择无 BGM 降级路径。</li><li>最终文件真实存在且可预览/导出后才能宣告完成。</li></ul></div></div>
+</section>
+
+<section class="section" id="context"><h2><span class="no">08</span>全局上下文与知识架构</h2>
+<div class="card table-scroll"><h3>结构化全局上下文</h3><table><tr><th>上下文域</th><th>可见字段</th><th>生产者</th><th>消费者</th><th>等级</th></tr>
+<tr><td>UserContext</td><td>登录状态、会员档位、credits=0</td><td>账户/计费</td><td>工作台、余额校验</td><td><span class="badge fact">已确认</span></td></tr>
+<tr><td>ProjectConfig</td><td>项目标题、产品、受众、UGC 风格、9:16、约 15 秒</td><td>用户 + 项目系统</td><td>编排及所有生成组件</td><td><span class="badge fact">已确认</span></td></tr>
+<tr><td>StoryboardContext</td><td>4 个镜头、4/4/5/3 秒、镜头任务状态</td><td>编排 + 视频组件</td><td>画布、后期合成</td><td><span class="badge fact">部分确认</span></td></tr>
+<tr><td>AssetContext</td><td>产品锚点、WAV、视频槽位、引用关系</td><td>媒体生成组件</td><td>画布、分镜、后期</td><td><span class="badge infer">引用关系为推断</span></td></tr>
+<tr><td>WorkflowState</td><td>计划、进行中、成功、失败、阻断</td><td>编排/任务服务</td><td>聊天、画布、项目列表</td><td><span class="badge infer">合理推断</span></td></tr>
+<tr><td>BillingContext</td><td>余额、预计成本、冻结额、实际消耗</td><td>计费系统</td><td>编排、模型调用</td><td><span class="badge fact">仅余额确认</span></td></tr>
+<tr><td>EvaluationContext</td><td>时长、一致性、音画同步、质量分</td><td>质量评测</td><td>完成门、重试策略</td><td><span class="badge recommend">建议设计</span></td></tr>
+</table></div>
+<div class="grid g2"><div class="card"><h3>项目数据</h3><p>项目简报、镜头计划、锚点、旁白、视频、任务状态和错误属于本项目私有数据，应以稳定 ID 和版本关联。</p><p class="small">证据：项目列表、历史对话、画布与素材面板。 <span class="ev">S03</span><span class="ev">S04</span><span class="ev">S05</span><span class="ev">S07</span></p></div><div class="card"><h3>可复用知识</h3><p>镜头语言、UGC 模板、提示词模板、模型能力边界、计费与安全规则可作为平台知识；具体实现未公开。</p><p><span class="badge infer">合理推断</span> 风格和镜头知识需要被转换为模型可执行参数。 <span class="badge recommend">建议设计</span> 模型能力与成本规则应由工具强制，不只放在 Agent 提示中。</p></div></div>
+<div class="callout err"><b>上下文一致性问题：</b>聊天态、画布态、素材库态没有表现为同一事实源：聊天说完成，画布有失败；画布有锚点，产品素材为空。 <span class="ev">S04</span><span class="ev">S08</span></div>
+</section>
+
+<section class="section" id="models"><h2><span class="no">09</span>模型接入、能力目录与路由</h2>
+<div class="card table-scroll"><table><tr><th>任务</th><th>所需能力</th><th>可见证据</th><th>路由输入</th><th>当前可确认边界</th></tr>
+<tr><td>简报理解与计划</td><td>结构化提取、任务分解、工具选择</td><td>从单段输入拆出 4 镜头与媒体计划</td><td>语言、交付类型、时长、风格</td><td>具体文本模型未知</td></tr>
+<tr><td>产品锚点</td><td>图像生成、产品一致性参考</td><td>白底咖啡机 PNG</td><td>产品描述、风格、尺寸</td><td>模型/种子/分辨率未知</td></tr>
+<tr><td>视频分镜</td><td>参考图生视频、9:16、短时长镜头</td><td>4 个槽位，至少 1 个失败</td><td>锚点引用、镜头提示、时长</td><td>未确认是否支持模型切换与自动重试</td></tr>
+<tr><td>中文旁白</td><td>中文 TTS、音色与节奏控制</td><td>年轻女性、自然亲切、约 15 秒 WAV</td><td>文案、语言、音色、时长</td><td>音色授权与模型未知</td></tr>
+<tr><td>BGM 与后期</td><td>音乐生成、字幕、剪辑、混音</td><td>BGM 请求被余额门拦截</td><td>情绪、时长、旁白和镜头资产</td><td>能力是否实际可用未验证</td></tr>
+</table></div>
+<div class="grid g2"><div class="card"><h3>当前路由形态 <span class="badge infer">合理推断</span></h3><p>编排组件按媒体类型选择能力端点；页面只显示“图片模型/视频模型”等功能标签，无法证明存在供应商级动态路由。</p></div><div class="card"><h3>建议路由策略 <span class="badge recommend">建议设计</span></h3><p>建立能力目录：任务类型、参考图支持、分辨率、时长、成本、延迟、失败率与安全限制；首选失败后只切换兼容模型，并保留幂等键避免重复扣费。</p></div></div>
+</section>
+
+<section class="section" id="stack"><h2><span class="no">10</span>底层架构能力与可能选型</h2>
+<p>以下不是 Lovart 官方技术栈，而是满足可见行为所需的能力与推荐方案。</p>
+<div class="card table-scroll"><table><tr><th>能力</th><th>可能选型</th><th>推荐方案</th><th>不能确认原因</th></tr>
+<tr><td>前端工作台</td><td>React/Vue + Canvas/WebGL</td><td>组件化 UI + 虚拟化无限画布 + 统一查询缓存</td><td>只有页面行为，无源码</td></tr>
+<tr><td>Agent 编排</td><td>状态图、工作流引擎、事件驱动编排</td><td>显式 DAG/状态机，任务与用户回复分离</td><td>未见内部执行日志</td></tr>
+<tr><td>异步媒体任务</td><td>队列 + Worker + Webhook/轮询</td><td>持久任务队列、幂等键、可取消令牌、失败重试</td><td>只看到异步结果形态</td></tr>
+<tr><td>模型网关</td><td>统一 REST/SDK 适配层</td><td>能力目录 + 成本/延时/失败率路由 + 降级</td><td>供应商和调用协议不可见</td></tr>
+<tr><td>结构化数据</td><td>关系数据库或文档数据库</td><td>关系模型存项目/任务/版本；事件表存审计轨迹</td><td>页面不暴露数据库</td></tr>
+<tr><td>媒体存储</td><td>对象存储 + CDN</td><td>不可变 AssetVersion、内容哈希、签名访问、生命周期策略</td><td>仅看到媒体 URL/播放器</td></tr>
+<tr><td>计费</td><td>账本 + 预授权/冻结</td><td>执行前估算与冻结，调用后结算，失败自动释放</td><td>只确认余额不足提示</td></tr>
+<tr><td>可观测性</td><td>日志、指标、分布式追踪</td><td>project/run/task/tool_call 全链路 trace_id</td><td>未见后台监控</td></tr>
+</table></div>
+</section>
+
+<section class="section" id="er"><h2><span class="no">11</span>数据实体与 ER 关系</h2>
+<div class="card"><h3>核心实体关系图</h3><div class="flow"><span class="node">User</span><span class="arrow">1:N</span><span class="node">Project</span><span class="arrow">1:N</span><span class="node">Conversation</span><span class="arrow">触发</span><span class="node">AgentRun</span><span class="arrow">1:N</span><span class="node">Task</span><span class="arrow">产生</span><span class="node">AssetVersion</span></div><div class="flow" style="margin-top:10px"><span class="node">Project</span><span class="arrow">1:N</span><span class="node">StoryboardShot</span><span class="arrow">引用</span><span class="node">Asset</span><span class="arrow">1:N</span><span class="node">AssetVersion</span><span class="arrow">参与</span><span class="node">FinalDeliverable</span></div><div class="flow" style="margin-top:10px"><span class="node">Task</span><span class="arrow">1:N</span><span class="node">ToolCall</span><span class="arrow">对应</span><span class="node">ModelInvocation</span><span class="arrow">计费</span><span class="node">BillingRecord</span><span class="arrow">异常</span><span class="node bad">Error</span></div></div>
+<div class="card table-scroll"><table><tr><th>实体</th><th>关键字段</th><th>证据等级</th><th>作用</th></tr>
+<tr><td>User / BillingAccount</td><td>user_id、plan、credits</td><td><span class="badge fact">部分确认</span></td><td>身份、权限与余额门</td></tr>
+<tr><td>Project / Conversation</td><td>project_id、title、updated_at、messages</td><td><span class="badge fact">已确认</span></td><td>项目边界与历史</td></tr>
+<tr><td>AgentRun / Task / ToolCall</td><td>run_id、task_type、status、attempt、error</td><td><span class="badge infer">架构推断</span></td><td>可恢复执行与审计</td></tr>
+<tr><td>StoryboardShot</td><td>shot_id、order、prompt、duration、status</td><td><span class="badge fact">概念确认</span></td><td>把镜头计划与视频资产绑定</td></tr>
+<tr><td>Asset / AssetVersion</td><td>type、uri、version、source_task、parent_asset_ids</td><td><span class="badge infer">架构推断</span></td><td>追踪锚点、音频、视频与最终片依赖</td></tr>
+<tr><td>UserConfirmation</td><td>gate、decision、timestamp</td><td><span class="badge recommend">建议设计</span></td><td>计划、成本与最终交付确认</td></tr>
+<tr><td>BillingRecord / Error</td><td>reservation、actual_cost、code、recoverable</td><td><span class="badge infer">部分推断</span></td><td>避免重复扣费并驱动恢复路径</td></tr>
+</table></div>
+</section>
+
+<section class="section" id="sequence"><h2><span class="no">12</span>端到端时序</h2>
+<div class="seq">
+  <div class="seq-step"><span class="idx">01</span><span class="actor">用户 → 工作台</span><span>提交广告简报；工作台写入 ProjectConfig 与 Conversation。 <span class="ev">S06</span></span></div>
+  <div class="seq-step"><span class="idx">02</span><span class="actor">工作台 → 编排</span><span>触发 AgentRun；编排提取 4 个分镜、旁白、BGM、字幕与合成计划。 <span class="badge fact">结果可见</span></span></div>
+  <div class="seq-step"><span class="idx">03</span><span class="actor">编排 → 图片工具</span><span>生成产品锚点，写回 Asset 与画布节点；把引用交给视频任务。</span></div>
+  <div class="seq-step"><span class="idx">04</span><span class="actor">编排 → TTS/视频</span><span>异步生成旁白与 4 个镜头；结果分别写回任务状态与媒体资产。 <span class="badge infer">并行度未知</span></span></div>
+  <div class="seq-step"><span class="idx">05</span><span class="actor">任务服务 → 工作台</span><span>聊天播报素材完成；画布显示 3 个可见预览和至少 1 个失败节点，形成状态冲突。 <span class="ev">S04</span></span></div>
+  <div class="seq-step"><span class="idx">06</span><span class="actor">编排 → 计费/BGM</span><span>请求音乐生成时检查余额，credits=0，返回积分不足。 <span class="ev">S09</span></span></div>
+  <div class="seq-step"><span class="idx">07</span><span class="actor">编排 → 用户</span><span>展示升级会员；字幕、剪辑、混音、导出未执行，FinalDeliverable 不存在。</span></div>
+  <div class="seq-step"><span class="idx">08</span><span class="actor">建议恢复路径</span><span><span class="badge recommend">建议设计</span> 用户选择充值续跑、无 BGM 合成或只重跑失败镜头；依据依赖图局部重算并保持幂等。</span></div>
+</div>
+</section>
+
+<section class="section" id="panorama"><h2><span class="no">13</span>产品全景主图</h2>
+<div class="panorama"><div class="pane"><h3>已确认的产品表面</h3><p><b>入口：</b>登录、项目列表、对话简报</p><p><b>工作台：</b>聊天、无限画布、历史、素材库</p><p><b>生产：</b>产品锚点、中文旁白、视频分镜</p><p><b>控制：</b>余额门、错误卡、升级入口</p><p><b>输出：</b>中间资产；最终成片缺失</p></div><div class="mid-arrow">→</div><div class="pane"><h3>推断的执行骨架</h3><p><b>控制流：</b>编排 Agent → 媒体任务 → 后期任务</p><p><b>数据流：</b>ProjectConfig → Storyboard → Asset 引用</p><p><b>任务流：</b>AgentRun → Task → ToolCall → 状态事件</p><p><b>资产流：</b>锚点 → 分镜；旁白 + 分镜 → 最终合成</p><p><b>断点：</b>状态事实源、质量门、计费预授权、降级完成</p></div></div>
+<div class="callout"><b>主链路：</b>用户需求 <span class="arrow">调用 →</span> 编排 Agent <span class="arrow">调用 →</span> 图像/TTS/视频工具 <span class="arrow">写入 →</span> 任务与资产 <span class="arrow">展示 →</span> 聊天/画布/素材库；当前“展示状态”没有被同一完成门约束。</div>
+</section>
+
+<section class="section" id="tobe"><h2><span class="no">14</span>As-Is、To-Be 与架构风险</h2>
+<div class="grid g2"><div class="card"><h3>As-Is：当前可见架构</h3><ul><li>一次简报即可自动展开多模态长链路。</li><li>产品锚点作为跨镜头一致性起点。</li><li>聊天和画布共同承载进度与资产。</li><li class="risk">完成声明与真实资产状态不一致。</li><li class="risk">计费门后置，最终交付没有降级方案。</li><li class="risk">资产库与画布资产没有一致同步。</li></ul></div><div class="card"><h3>To-Be：优化目标</h3><ol><li>统一 Task/Asset/Deliverable 状态事实源。</li><li>执行前成本估算、余额冻结和用户确认。</li><li>每个 Agent 以真实工具结果与质量门判定完成。</li><li>AssetVersion + 依赖图驱动失效与局部重算。</li><li>失败镜头自动重试，模型切换保持幂等。</li><li>BGM 失败时支持无音乐/免费曲库/稍后补配乐。</li><li>全链路 trace_id 连接项目、任务、模型调用与扣费。</li></ol></div></div>
+<div class="card"><h3>优先级风险清单</h3><div class="risk-list">
+  <div class="risk-item"><div><b>P0 状态冲突</b><br><span class="small">聊天完成 ≠ 画布完成</span></div><span class="badge fact">已发生</span></div>
+  <div class="risk-item"><div><b>P0 末端计费阻断</b><br><span class="small">长链路后段才发现余额不足</span></div><span class="badge fact">已发生</span></div>
+  <div class="risk-item"><div><b>P1 依赖失效缺失</b><br><span class="small">上游锚点修改后，下游是否重算未知</span></div><span class="badge na">未知</span></div>
+  <div class="risk-item"><div><b>P1 重试重复扣费</b><br><span class="small">失败镜头重跑的幂等和账本策略未知</span></div><span class="badge na">未知</span></div>
+  <div class="risk-item"><div><b>P1 时长与音画不同步</b><br><span class="small">目标 15 秒，镜头记录合计 16 秒</span></div><span class="badge fact">已观察</span></div>
+  <div class="risk-item"><div><b>P2 私有资产隔离</b><br><span class="small">跨项目素材复用时的权限、版本与删除传播未知</span></div><span class="badge na">未知</span></div>
+</div></div>
+<div class="card table-scroll"><h3>组件—证据追溯</h3><table><tr><th>架构组件</th><th>进入主图的理由</th><th>证据</th><th>等级/置信度</th></tr>
+<tr><td>账户/计费</td><td>登录门、余额 0、升级提示直接可见</td><td>S02、S09</td><td>已确认 / 高</td></tr>
+<tr><td>项目/对话/画布</td><td>同一项目的列表、历史和资产工作区可复核</td><td>S03–S06</td><td>已确认 / 高</td></tr>
+<tr><td>编排 Agent</td><td>从简报拆出多阶段计划并连续调度媒体任务</td><td>S06、S09</td><td>合理推断 / 高</td></tr>
+<tr><td>图像/视频/TTS 工具</td><td>对应媒体资产真实存在</td><td>S04、S06</td><td>已确认到能力层 / 高</td></tr>
+<tr><td>任务状态与异步执行</td><td>多个生成结果分阶段出现并含失败节点</td><td>S04、S09</td><td>合理推断 / 中高</td></tr>
+<tr><td>对象存储/CDN</td><td>媒体可播放/下载需要稳定资产服务</td><td>S04、S06</td><td>合理推断 / 中</td></tr>
+<tr><td>质量门/依赖图/预授权</td><td>直接针对已观察到的状态、时长与计费问题</td><td>S04、S08、S09</td><td>建议设计 / 高必要性</td></tr>
+</table></div>
+</section>
+
+<section class="section" id="opportunities"><h2><span class="no">15</span>痛点与产品机会</h2>
+<div class="grid g2">
+<div class="card"><h3>关键痛点</h3><ul><li><b>末端计费惊讶：</b>长链路进行到 BGM 才提示余额不足，沉没成本感强。</li><li><b>完成状态不可信：</b>口头完成与画布失败资产冲突。</li><li><b>素材没有结构化沉淀：</b>已生成咖啡机锚点却未进入产品素材分类。</li><li><b>最终交付缺少降级：</b>无 BGM 时不能自动选择无音乐版本继续合成。</li><li><b>修改路径不透明：</b>有输入框和操作按钮，但上游修改是否让下游失效未知。</li></ul></div>
+<div class="card"><h3>优先机会</h3><ol><li><b>执行前成本预估与预授权：</b>显示预计积分、每阶段消耗和余额缺口。</li><li><b>交付物状态机：</b>将“中间资产完成 / 部分失败 / 最终成片完成”分开。</li><li><b>自动修复门：</b>发现分镜失败时暂停后续并只重跑失败镜头。</li><li><b>可降级完成：</b>BGM 失败时允许“无音乐合成”“使用免费曲库”“稍后补配乐”。</li><li><b>资产类型化：</b>一键将锚点保存为产品，维护版本和依赖关系。</li></ol></div>
+</div></section>
+
+<section class="section" id="gallery"><h2><span class="no">16</span>证据图库</h2><div class="gallery">
+<a class="shot" href="evidence/S01-home.jpeg"><img src="evidence/S01-home.jpeg" alt="S01"><div class="meta"><div class="mid">S01</div>首页：对话输入、Basic 档位、营销/社媒/品牌/创意/产品分类与技能市场。</div></a>
+<a class="shot" href="evidence/S02-login-gate.jpeg"><img src="evidence/S02-login-gate.jpeg" alt="S02"><div class="meta"><div class="mid">S02</div>未登录访问项目时出现微信/手机号登录门。</div></a>
+<a class="shot" href="evidence/S03-project-list.jpeg"><img src="evidence/S03-project-list.jpeg" alt="S03"><div class="meta"><div class="mid">S03</div>项目列表：一个“便携咖啡机竖屏 UGC 广告视频”真实项目。</div></a>
+<a class="shot" href="evidence/S04-canvas-assets.jpeg"><img src="evidence/S04-canvas-assets.jpeg" alt="S04"><div class="meta"><div class="mid">S04</div>画布：产品锚点与 4 个分镜槽位；其中一个显示失败占位。</div></a>
+<a class="shot" href="evidence/S05-history.jpeg"><img src="evidence/S05-history.jpeg" alt="S05"><div class="meta"><div class="mid">S05</div>历史对话仅有一次原始请求，没有纠偏分支。</div></a>
+<a class="shot" href="evidence/S06-input-anchor-audio.jpeg"><img src="evidence/S06-input-anchor-audio.jpeg" alt="S06"><div class="meta"><div class="mid">S06</div>原始简报、产品锚点与 15 秒旁白资产在同一工作区可见。</div></a>
+<a class="shot" href="evidence/S07-asset-library.jpeg"><img src="evidence/S07-asset-library.jpeg" alt="S07"><div class="meta"><div class="mid">S07</div>“我的素材”面板提供品牌套件、角色、产品和自定义结构。</div></a>
+<a class="shot" href="evidence/S08-product-assets-empty.jpeg"><img src="evidence/S08-product-assets-empty.jpeg" alt="S08"><div class="meta"><div class="mid">S08</div>产品素材分类为空，与画布已有产品锚点形成状态割裂。</div></a>
+<a class="shot" href="evidence/S09-credit-failure.jpeg"><img src="evidence/S09-credit-failure.jpeg" alt="S09"><div class="meta"><div class="mid">S09</div>BGM 阶段积分不足，提供升级会员按钮，最终合成未继续。</div></a>
+</div></section>
+
+<section class="section" id="verify"><h2><span class="no">17</span>事实、推断与未知</h2>
+<div class="grid g3"><div class="card"><h3>页面事实</h3><p>项目存在；余额为 0；锚点图、旁白和分镜槽位可见；BGM 因积分不足失败；最终成片不可见；产品素材分类为空。</p></div><div class="card"><h3>合理推断</h3><p>文本模型负责规划和路由；媒体任务可能异步并行；锚点通过稳定 URL 或资产引用传递；最终合成依赖多个上游资产与余额状态。</p></div><div class="card"><h3>尚未确认</h3><p>底层模型供应商；真实并行度；失败自动重试；素材版本和依赖失效；最终导出规格；用户修改后的增量重跑；品牌与版权审核。</p></div></div>
+<div class="card"><h3>最值得继续验证的问题</h3><ol><li>充值后是否会从 BGM 原地恢复，还是重跑此前资产并重复计费？</li><li>分镜失败是否会被自动识别并只重跑该镜头？</li><li>不生成 BGM 时能否直接剪辑、加字幕并导出无音乐版本？</li><li>修改产品锚点后，4 个分镜是否自动失效并提示依赖重算？</li><li>将锚点保存为“产品素材”后，跨项目引用和版本控制如何工作？</li></ol></div>
+</section>
+<footer class="small" style="margin-top:40px;padding-top:14px;border-top:1px solid var(--border)">Lovart 完整产品架构拆解 · 基于 S01–S09 页面证据 · 已确认 / 合理推断 / 建议设计 / 未知均在正文标注 · 功能组件与实体名称为分析命名，不代表官方内部架构。</footer>
+</main>
+</body>
+</html>
